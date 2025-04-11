@@ -25,9 +25,12 @@ B = pickle.loads(msg)
 K = B ** a % p
 print("Shared secret K =", K)
 
-# Receive the server's public key
+# Receive the server's public key (PEM format)
 msg = sock.recv(1024)
-server_public_key = pickle.loads(msg)
+public_key_pem = pickle.loads(msg)
+
+# Import the public key from PEM format
+server_public_key = RSA.import_key(public_key_pem)
 
 # Encrypt a message using the server's public key
 message = "Hello, server!"

@@ -29,8 +29,11 @@ print("Shared secret K =", K)
 private_key = RSA.generate(2048)
 public_key = private_key.publickey()
 
-# Send the public key to the client
-conn.send(pickle.dumps(public_key))
+# Export the public key to PEM format (bytes)
+public_key_pem = public_key.export_key()
+
+# Send the PEM-encoded public key to the client
+conn.send(pickle.dumps(public_key_pem))
 
 # Receive and decrypt the message from the client
 msg = conn.recv(1024)
